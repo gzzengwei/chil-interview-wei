@@ -2,10 +2,8 @@
 
 <% content_for :title, "Users" %>
 
-<h1>Users</h1>
-
-<div class="user-table-container">
-  <table class="user-table">
+<div class="user-table-container container">
+  <table class="user-table table">
     <thead>
       <tr>
         <th>Name</th>
@@ -33,14 +31,15 @@
           <td><%= user.referral_count %></td>
           <td><%= user.reward_points %></td>
           <td>
-            <%= link_to "Show", user, class: "show-link" %>
+            <%= link_to "Show", user, class: "show-link btn btn-primary" %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
+
+  <div class="actions">
+    <%= link_to "New User Regiestration", new_user_path, class: "new-user-button btn btn-primary" %>
+   </div>
 </div>
 
-<div class="actions">
-  <%= link_to "New User Regiestration", new_user_path, class: "new-user-button" %>
-</div>

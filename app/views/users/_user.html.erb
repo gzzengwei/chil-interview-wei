@@ -1,4 +1,4 @@
-<div id="<%= dom_id user %>">
+<div class="container" id="<%= dom_id user %>">
   <p>
     <strong>Name:</strong>
     <%= user.name %>
@@ -16,7 +16,11 @@
 
   <p>
     <strong>Referred by:</strong>
-    <%= user.referred_by.name %> (<%= user.referred_by.email %>)
+      <% if user.referred_by %>
+        <%= user.referred_by.name %> (<%= user.referred_by.email %>)
+      <% else %>
+        <span class="text-muted">None</span>
+      <% end %>
   </p>
 
   <p>
@@ -32,7 +36,7 @@
   <% if user.referrals.any? %>
     <div class="referred-users-container">
       <h3>Users Referred by <%= user.name %></h3>
-      <table class="referred-users-table">
+      <table class="referred-users-table table">
         <thead>
           <tr>
             <th>Name</th>
@@ -47,7 +51,7 @@
               <td><%= referred_user.name %></td>
               <td><%= referred_user.email %></td>
               <td><%= referred_user.created_at.strftime('%B %d, %Y') %></td>
-              <td><%= link_to "View", referred_user %></td>
+               <td><%= link_to "View", referred_user, class: "btn btn-primary" %></td>
             </tr>
           <% end %>
         </tbody>
