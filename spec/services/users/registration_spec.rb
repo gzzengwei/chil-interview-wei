@@ -70,6 +70,33 @@ RSpec.describe Users::Registration do
         expect(service.user.referral_code).to be_present
         expect(service.user.referral_code).not_to eq('ABCD1234')
       end
+
+
+      context 'with referral code for an experienced referrer' do
+        let!(:experienced_referrer) do
+          User.create(
+            name: 'Experienced Referrer',
+            email: 'experienced@example.com',
+            referral_code: 'EXPREF12',
+            referral_count: 15,
+            reward_points: 150
+          )
+        end
+
+        it 'awards 20 points to referrers with 11-20 previous referrals' do
+          service = Users::Registration.new({
+            name: 'New Referred User',
+            email: 'referred@example.com',
+            referral_code: 'EXPREF12'
+          })
+
+          expect { service.register }.to change { experienced_referrer.reload.reward_points }.by(20)
+
+          expect(experienced_referrer.reload.referral_count).to eq(16)
+
+          expect(service.user.referred_by_id).to eq(experienced_referrer.id)
+        end
+      end
     end
   end
 end

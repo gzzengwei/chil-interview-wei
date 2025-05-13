@@ -4,8 +4,6 @@ module Users
   class Registration
     attr_reader :params, :user
 
-    REWARD_POINTS_PER_REFERRAL = 10
-
     def initialize(params)
       @params = params
     end
@@ -45,7 +43,10 @@ module Users
     def reward_referrer
       ActiveRecord::Base.transaction do
         @user.referred_by.increment!(:referral_count)
-        @user.referred_by.increment!(:reward_points, REWARD_POINTS_PER_REFERRAL)
+        @user.referred_by.increment!(
+          :reward_points,
+          Users::Reward.calculate_points(@user.referred_by)
+        )
       end
     end
   end
