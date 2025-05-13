@@ -1,0 +1,46 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Users" %>
+
+<h1>Users</h1>
+
+<div class="user-table-container">
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Referral Code</th>
+        <th>Referred By</th>
+        <th>Referral Count</th>
+        <th>Reward Points</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><code><%= user.referral_code %></code></td>
+          <td>
+            <% if user.referred_by %>
+              <%= link_to user.referred_by.name, user.referred_by %>
+            <% else %>
+              <span class="text-muted">None</span>
+            <% end %>
+          </td>
+          <td><%= user.referral_count %></td>
+          <td><%= user.reward_points %></td>
+          <td>
+            <%= link_to "Show", user, class: "show-link" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="actions">
+  <%= link_to "New User Regiestration", new_user_path, class: "new-user-button" %>
+</div>

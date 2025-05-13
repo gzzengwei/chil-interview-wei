@@ -1,0 +1,61 @@
+<div id="<%= dom_id user %>">
+  <p>
+    <strong>Name:</strong>
+    <%= user.name %>
+  </p>
+
+  <p>
+    <strong>Email:</strong>
+    <%= user.email %>
+  </p>
+
+  <p>
+    <strong>Referral code:</strong>
+    <%= user.referral_code %>
+  </p>
+
+  <p>
+    <strong>Referred by:</strong>
+    <%= user.referred_by.name %> (<%= user.referred_by.email %>)
+  </p>
+
+  <p>
+    <strong>Referral count:</strong>
+    <%= user.referral_count %>
+  </p>
+
+  <p>
+    <strong>Reward points:</strong>
+    <%= user.reward_points %>
+  </p>
+
+  <% if user.referrals.any? %>
+    <div class="referred-users-container">
+      <h3>Users Referred by <%= user.name %></h3>
+      <table class="referred-users-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Sign-up Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% user.referrals.each do |referred_user| %>
+            <tr>
+              <td><%= referred_user.name %></td>
+              <td><%= referred_user.email %></td>
+              <td><%= referred_user.created_at.strftime('%B %d, %Y') %></td>
+              <td><%= link_to "View", referred_user %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="no-referrals-message">
+      <em>This user hasn't referred anyone yet.</em>
+    </p>
+  <% end %>
+</div>
